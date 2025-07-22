@@ -11,8 +11,8 @@ You can access the live deployed version of the application here:
 
 ## Screenshots
 
-![Calendar View](/calendar.png)
-![Booking Modal](/book-call.png)
+![Calendar View](https://raw.githubusercontent.com/sumanth639/healthtick-calendar/refs/heads/main/public/calendar.png)
+![Booking Modal](https://github.com/sumanth639/healthtick-calendar/blob/main/public/book-call.png?raw=true)
 
 ## Features
 
