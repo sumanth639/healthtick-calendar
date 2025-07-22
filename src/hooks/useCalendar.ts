@@ -9,7 +9,6 @@ import {
   type Client,
 } from '../types/index';
 
-// Import Firestore specific functions and collection reference
 import {
   callsCollection,
   addDoc,
@@ -33,21 +32,18 @@ export function useCalendar() {
 
   const timeSlots: Date[] = generateTimeSlots();
 
-  // --- Firestore Data Fetching ---
+  //  Firestpre Data Fetching
   useEffect(() => {
     const fetchCalls = async () => {
       try {
         const querySnapshot = await getDocs(callsCollection);
         const fetchedCalls: CallsByDate = {};
         querySnapshot.forEach((document) => {
-          // Type assertion with 'as Call' is fine here because you know the structure.
-          // The 'any' was coming from the destructuring in the line below.
           const callData = {
             id: document.id,
             ...document.data(),
           } as Call;
 
-          // Initialize array if it doesn't exist
           if (!fetchedCalls[callData.date]) {
             fetchedCalls[callData.date] = [];
           }
@@ -84,28 +80,21 @@ export function useCalendar() {
 
   const getCallsForDate = (date: Date): Call[] => {
     const dateString = getDateString(date);
-    const dayOfWeek = getDayOfWeek(date); // 0 (Sunday) to 6 (Saturday)
+    const dayOfWeek = getDayOfWeek(date);
     const result: Call[] = [];
 
-    // 1. Get one-time calls for this specific date
     if (calls[dateString]) {
-      result.push(...calls[dateString].filter((c) => c.type !== 'FOLLOWUP'));
+      result.push(...calls[dateString].filter((c) => !c.isRecurring));
     }
 
-    // 2. Get recurring calls that fall on this day of week
-    // Iterate through all values in the 'calls' object, then flatten the arrays
     Object.values(calls)
       .flat()
       .forEach((call: Call) => {
-        // Explicitly check for isRecurring and recurringDayOfWeek properties,
-        // as they are optional in the Call interface.
-        // Also, use optional chaining and nullish coalescing if you expect them to sometimes be undefined.
         if (
-          call.isRecurring === true && // Check if it's explicitly true
-          call.recurringDayOfWeek === dayOfWeek && // Check if the recurring day matches
-          new Date(call.date).setHours(0, 0, 0, 0) <= date.setHours(0, 0, 0, 0) // Ensure it started on or before selected date
+          call.isRecurring === true &&
+          call.recurringDayOfWeek === dayOfWeek &&
+          new Date(call.date).setHours(0, 0, 0, 0) <= date.setHours(0, 0, 0, 0)
         ) {
-          // Prevent adding duplicate if a specific one-time call for the exact slot already exists
           if (
             !result.some(
               (existingCall) =>
@@ -138,7 +127,7 @@ export function useCalendar() {
 
       const slotStart = slotTime.getHours() * 60 + slotTime.getMinutes();
       const slotEnd = slotEndTime.getHours() * 60 + slotEndTime.getMinutes();
-      const callStart = callTime.getHours() * 60 + callTime.getMinutes(); // FIX: Changed 'callStartTime' to 'callTime'
+      const callStart = callTime.getHours() * 60 + callTime.getMinutes();
       const callEnd = callEndTime.getHours() * 60 + callEndTime.getMinutes();
 
       return slotStart < callEnd && slotEnd > callStart;
@@ -222,9 +211,6 @@ export function useCalendar() {
       const docRef = await addDoc(callsCollection, newCallData);
       console.log('Document written with ID:', docRef.id);
 
-      // Create a Call object including the Firestore-generated ID
-      // No 'as Call' needed here if newCallData already matches the structure
-      // and id is added correctly.
       const newCall: Call = { ...newCallData, id: docRef.id };
       setCalls((prev) => ({
         ...prev,

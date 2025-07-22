@@ -1,10 +1,7 @@
-// src/App.tsx
-import React from 'react';
 import Header from './components/Header';
 import CalendarGrid from './components/CalendarGrid';
 import BookingModal from './components/BookingModal';
 import { useCalendar } from './hooks/useCalendar';
-// CALL_TYPES import is not directly used here but could be for display logic if needed
 
 export default function App() {
   const {
@@ -24,7 +21,7 @@ export default function App() {
     navigateDate,
     isSlotOccupied,
     getCallForSlot,
-    canBookSlot, // Make sure to destructure this from useCalendar
+    canBookSlot,
     handleSlotClick,
     handleBooking,
     handleDeleteCall,
@@ -36,7 +33,6 @@ export default function App() {
       <Header />
 
       <main className="max-w-6xl mx-auto p-6">
-        {/* Date Navigation */}
         <div className="bg-stone-900 rounded-xl p-6 mb-6 shadow-lg border border-stone-800">
           <div className="flex items-center gap-4 mb-4">
             <button
@@ -90,7 +86,7 @@ export default function App() {
             filteredClients={filteredClients}
             handleBooking={handleBooking}
             setShowBookingModal={setShowBookingModal}
-            canBookSlot={canBookSlot} // Pass the actual function
+            canBookSlot={canBookSlot}
           />
         )}
       </main>

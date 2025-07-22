@@ -1,21 +1,11 @@
 import { X, Search, User, Phone } from 'lucide-react';
 import { CALL_TYPES } from '../libs/constants';
 import { formatTime } from '../libs/utils';
-import { type CallTypeKey, type Client } from '../types'; // Import types
-
-interface BookingModalProps {
-  selectedSlot: Date | null;
-  selectedClient: string;
-  setSelectedClient: (clientId: string) => void;
-  selectedCallType: CallTypeKey | '';
-  setSelectedCallType: (callType: CallTypeKey | '') => void;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  filteredClients: Client[];
-  handleBooking: () => void;
-  setShowBookingModal: (show: boolean) => void;
-  canBookSlot: (slotTime: Date | null, callType: CallTypeKey | '') => boolean; // Add type for canBookSlot
-}
+import {
+  type CallTypeKey,
+  type Client,
+  type BookingModalProps,
+} from '../types/index';
 
 export default function BookingModal({
   selectedSlot,
@@ -37,7 +27,7 @@ export default function BookingModal({
           <h3 className="text-lg font-semibold">Book Call</h3>
           <button
             onClick={() => setShowBookingModal(false)}
-            className="text-stone-400 hover:text-stone-200"
+            className="text-stone-400 cursor-pointer hover:text-stone-200"
           >
             <X className="h-5 w-5" />
           </button>
@@ -90,7 +80,7 @@ export default function BookingModal({
                     setSelectedClient(client.id.toString());
                     setSearchTerm(client.name);
                   }}
-                  className={`w-full text-left p-3 hover:bg-stone-800 transition-colors ${
+                  className={`w-full text-left p-3 cursor-pointer hover:bg-stone-800 transition-colors ${
                     selectedClient === client.id.toString()
                       ? 'bg-stone-800'
                       : ''
@@ -114,7 +104,7 @@ export default function BookingModal({
           <div className="flex gap-3 pt-4">
             <button
               onClick={() => setShowBookingModal(false)}
-              className="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg px-4 py-2 transition-colors border border-stone-700"
+              className="flex-1 bg-stone-800 cursor-pointer hover:bg-stone-700 text-stone-300 rounded-lg px-4 py-2 transition-colors border border-stone-700"
             >
               Cancel
             </button>
@@ -125,7 +115,7 @@ export default function BookingModal({
                 !selectedCallType ||
                 !canBookSlot(selectedSlot, selectedCallType)
               }
-              className="flex-1 bg-orange-600 hover:bg-orange-500 disabled:bg-stone-700 disabled:text-stone-500 text-white rounded-lg px-4 py-2 transition-colors disabled:cursor-not-allowed"
+              className="flex-1 cursor-pointer bg-orange-600 hover:bg-orange-500 disabled:bg-stone-700 disabled:text-stone-500 text-white rounded-lg px-4 py-2 transition-colors disabled:cursor-not-allowed"
             >
               Book Call
             </button>

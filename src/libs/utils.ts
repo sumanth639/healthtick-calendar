@@ -1,9 +1,5 @@
-// src/libs/utils.ts
-
-// Generate time slots from 10:30 AM to 7:30 PM (20-minute intervals)
 export const generateTimeSlots = (): Date[] => {
-  // Explicitly state that it returns an array of Date objects
-  const slots: Date[] = []; // Initialize slots as an array of Date objects
+  const slots: Date[] = [];
   const currentTime = new Date();
   currentTime.setHours(10, 30, 0, 0);
 
@@ -18,7 +14,6 @@ export const generateTimeSlots = (): Date[] => {
 };
 
 export const formatTime = (date: Date): string => {
-  // 'date' parameter is a Date object, returns a string
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -27,7 +22,6 @@ export const formatTime = (date: Date): string => {
 };
 
 export const formatDate = (date: Date): string => {
-  // 'date' parameter is a Date object, returns a string
   return date.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -37,11 +31,9 @@ export const formatDate = (date: Date): string => {
 };
 
 export const getDateString = (date: Date): string => {
-  // 'date' parameter is a Date object, returns a string
   return date.toISOString().split('T')[0];
 };
 
 export const getDayOfWeek = (date: Date): number => {
-  // 'date' parameter is a Date object, returns a number
-  return date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  return date.getDay();
 };

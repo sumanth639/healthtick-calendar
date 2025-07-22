@@ -1,5 +1,3 @@
-// src/types/index.ts
-
 export interface Client {
   id: number;
   name: string;
@@ -16,17 +14,41 @@ export interface CallType {
 }
 
 export interface Call {
-  id: string; // Changed from 'number' to 'string' to match Firestore's doc.id
+  id: string;
   clientId: number;
   clientName: string;
   clientPhone: string;
   type: CallTypeKey;
-  time: string; // "HH:MM"
-  date: string; // "YYYY-MM-DD"
-  isRecurring?: boolean; // New: Optional field for recurring calls
-  recurringDayOfWeek?: number | null; // New: Optional field for the day of week (0-6)
+  time: string;
+  date: string;
+  isRecurring?: boolean;
+  recurringDayOfWeek?: number | null;
 }
 
 export interface CallsByDate {
   [date: string]: Call[];
+}
+
+export interface BookingModalProps {
+  selectedSlot: Date | null;
+  selectedClient: string;
+  setSelectedClient: (clientId: string) => void;
+  selectedCallType: CallTypeKey | '';
+  setSelectedCallType: (callType: CallTypeKey | '') => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  filteredClients: Client[];
+  handleBooking: () => void;
+  setShowBookingModal: (show: boolean) => void;
+  canBookSlot: (slotTime: Date | null, callType: CallTypeKey | '') => boolean;
+}
+
+export interface CalendarGridProps {
+  timeSlots: Date[];
+  selectedDate: Date;
+  calls: CallsByDate;
+  isSlotOccupied: (slotTime: Date) => boolean;
+  getCallForSlot: (slotTime: Date) => Call | undefined;
+  handleSlotClick: (slotTime: Date) => void;
+  handleDeleteCall: (callToDelete: Call) => void;
 }

@@ -1,4 +1,3 @@
-// src/lib/constants.js
 export const DUMMY_CLIENTS = [
   { id: 1, name: 'Rahul Sharma', phone: '+91 98765 43210' },
   { id: 2, name: 'Priya Patel', phone: '+91 87654 32109' },
@@ -26,13 +25,13 @@ export const CALL_TYPES = {
   ONBOARDING: {
     name: 'Onboarding Call',
     duration: 40,
-    color: 'bg-amber-400',
+    color: 'bg-lime-400',
     recurring: false,
   },
   FOLLOWUP: {
     name: 'Follow-up Call',
     duration: 20,
-    color: 'bg-amber-200',
+    color: 'bg-rose-400',
     recurring: true,
   },
 };
