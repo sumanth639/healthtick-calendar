@@ -1,9 +1,11 @@
+// src/App.tsx
 import Header from './components/Header';
 import CalendarGrid from './components/CalendarGrid';
 import BookingModal from './components/BookingModal';
+import { CalendarProvider } from './context/CalendarContext';
 import { useCalendar } from './hooks/useCalendar';
 
-export default function App() {
+function CalendarApp() {
   const {
     selectedDate,
     setSelectedDate,
@@ -91,5 +93,13 @@ export default function App() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <CalendarProvider>
+      <CalendarApp />
+    </CalendarProvider>
   );
 }

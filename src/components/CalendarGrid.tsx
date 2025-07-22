@@ -1,3 +1,4 @@
+// src/components/CalendarGrid.tsx
 import { Clock, Plus, User, X } from 'lucide-react';
 import { CALL_TYPES } from '../libs/constants';
 import { formatTime } from '../libs/utils';
@@ -84,7 +85,9 @@ export default function CalendarGrid({
                   </div>
                 ) : (
                   <div className="text-center text-stone-500">
-                    <div className="text-xs">Click to book</div>
+                    <div className="text-xs">
+                      {occupied ? 'Already Booked' : 'Click to book'}
+                    </div>
                   </div>
                 )}
               </div>
