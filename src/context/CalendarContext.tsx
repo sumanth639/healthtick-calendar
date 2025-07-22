@@ -79,9 +79,15 @@ export function CalendarProvider({ children }: CalendarProviderProps) {
   }, [searchTerm]);
 
   const navigateDate = (direction: number) => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(newDate.getDate() + direction);
-    setSelectedDate(newDate);
+    setSelectedDate((prevDate) => {
+      const year = prevDate.getFullYear();
+      const month = prevDate.getMonth();
+      const day = prevDate.getDate();
+
+      const newDate = new Date(year, month, day + direction);
+      console.log('Navigated to date:', newDate);
+      return newDate;
+    });
   };
 
   const getCallsForDate = (date: Date): Call[] => {
@@ -171,6 +177,20 @@ export function CalendarProvider({ children }: CalendarProviderProps) {
   };
 
   const handleSlotClick = (slotTime: Date) => {
+    const now = new Date();
+    const slotDateTime = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate(),
+      slotTime.getHours(),
+      slotTime.getMinutes()
+    );
+
+    if (slotDateTime < now) {
+      alert('Cannot book past time slots');
+      return;
+    }
+
     if (isSlotOccupied(slotTime)) {
       return;
     }

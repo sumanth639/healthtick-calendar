@@ -1,4 +1,3 @@
-// src/contexts/calendarContextDefinition.ts
 import { createContext } from 'react';
 import type { Call, CallTypeKey, CallsByDate, Client } from '../types/index';
 

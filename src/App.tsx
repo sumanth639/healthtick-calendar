@@ -1,8 +1,8 @@
-// src/App.tsx
 import Header from './components/Header';
 import CalendarGrid from './components/CalendarGrid';
 import BookingModal from './components/BookingModal';
 import { CalendarProvider } from './context/CalendarContext';
+import { formatDateForInput } from './libs/utils';
 import { useCalendar } from './hooks/useCalendar';
 
 function CalendarApp() {
@@ -30,6 +30,13 @@ function CalendarApp() {
     timeSlots,
   } = useCalendar();
 
+  console.log(
+    'SelectedDate:',
+    selectedDate,
+    'Input:',
+    formatDateForInput(selectedDate)
+  );
+
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100">
       <Header />
@@ -45,8 +52,13 @@ function CalendarApp() {
             </button>
             <input
               type="date"
-              value={selectedDate.toISOString().split('T')[0]}
-              onChange={(e) => setSelectedDate(new Date(e.target.value))}
+              value={formatDateForInput(selectedDate)}
+              onChange={(e) => {
+                const [year, month, day] = e.target.value
+                  .split('-')
+                  .map(Number);
+                setSelectedDate(new Date(year, month - 1, day));
+              }}
               className="bg-stone-800 text-stone-100 rounded-lg px-4 py-2 border border-stone-700 focus:border-orange-500 focus:outline-none"
             />
             <button
